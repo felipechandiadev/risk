@@ -1,0 +1,332 @@
+:root {
+  color-scheme: dark;
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: #07111f;
+  color: #f8fafc;
+}
+
+body {
+  margin: 0;
+  background: linear-gradient(135deg, #07111f 0%, #10213b 100%);
+  min-height: 100vh;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.presentation-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 0.75rem;
+}
+
+.presentation-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 0.9rem;
+  backdrop-filter: blur(18px);
+  background: rgba(3, 12, 24, 0.78);
+  box-shadow: 0 12px 28px rgba(2, 8, 23, 0.22);
+}
+
+.presentation-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.presentation-logo {
+  width: 64px;
+  min-width: 64px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  background: transparent;
+  padding: 0;
+}
+
+.presentation-logo-image {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.presentation-brand h1 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.presentation-brand p {
+  margin: 0.2rem 0 0;
+  color: #cbd5e1;
+  font-size: 0.92rem;
+}
+
+.slide-dots {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.slide-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.slide-dot:hover {
+  transform: scale(1.08);
+}
+
+.slide-dot.active {
+  background: #f8fafc;
+  border-color: #f8fafc;
+}
+
+.presentation-content {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem 0 1rem;
+}
+
+/* When the map slide is active, remove vertical padding so the map can touch header */
+.presentation-content.map-active {
+  padding: 0.5rem 0 0.75rem;
+  align-items: flex-start;
+  justify-content: stretch;
+}
+
+.slide-card {
+  width: min(100%, 980px);
+  background: rgba(15, 23, 42, 0.88);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 1.25rem;
+  padding: 1.5rem;
+  box-shadow: 0 18px 42px rgba(2, 8, 23, 0.26);
+  margin: 0 auto;
+}
+
+/* map-specific adjustments when using full map */
+.slide-map-card.slide-map-full {
+  padding: 0;
+  border-radius: 0.75rem;
+  box-shadow: none;
+}
+
+.slide-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.35rem 0.7rem;
+  border-radius: 999px;
+  background: rgba(56, 189, 248, 0.15);
+  color: #7dd3fc;
+  font-size: 0.82rem;
+  margin-bottom: 1rem;
+}
+
+.slide-card h2 {
+  margin: 0 0 0.65rem;
+  font-size: clamp(1.35rem, 2vw, 1.9rem);
+}
+
+.slide-card p {
+  margin: 0 0 1rem;
+  color: #cbd5e1;
+  line-height: 1.6;
+}
+
+.slide-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin-top: 1.25rem;
+}
+
+.info-card {
+  padding: 1rem;
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.info-card h3 {
+  margin: 0.5rem 0 0.35rem;
+}
+
+.map-wrapper {
+  border-radius: 1rem;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  min-height: 0;
+}
+
+.map-wrapper .leaflet-container {
+  width: 100%;
+  height: 100%;
+}
+
+.map-placeholder {
+  display: grid;
+  place-items: center;
+  height: 100%;
+  background: rgba(2, 6, 23, 0.7);
+  color: #cbd5e1;
+}
+
+/* Slide mapa: ocupa casi todo el viewport (pegado a la topbar) */
+.slide-map-card.slide-map-full {
+  width: 100%;
+  max-width: 980px;
+  padding: 0.75rem;
+  border-radius: 1rem;
+}
+
+/* wrapper mantiene borde/overlay; MapContainer controla la altura inline */
+.slide-map-card.slide-map-full .map-wrapper {
+  border-radius: 0.75rem;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.08);
+  min-height: 0; /* allow JS-driven height */
+  max-height: calc(100vh - 6rem);
+}
+
+.wind-panel {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.wind-panel-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 1rem;
+  border-radius: 1rem;
+}
+
+.wind-panel-label {
+  text-transform: uppercase;
+  font-size: 0.78rem;
+  color: #94a3b8;
+}
+
+.wind-slider-panel {
+  margin-top: 1rem;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.wind-slider-panel label {
+  font-weight: 600;
+  color: #e2e8f0;
+}
+
+.wind-slider-panel input[type='range'] {
+  width: 100%;
+  accent-color: #38bdf8;
+}
+
+.slider-hint {
+  color: #94a3b8;
+  font-size: 0.95rem;
+}
+
+.iframe-frame {
+  border-radius: 1rem;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  min-height: 420px;
+}
+
+.iframe-frame iframe {
+  width: 100%;
+  height: 420px;
+  border: 0;
+  background: white;
+}
+
+.presentation-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 1rem;
+  padding: 0 0.2rem;
+}
+
+.presentation-nav-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: 0;
+  border-radius: 999px;
+  padding: 0.72rem 1rem;
+  cursor: pointer;
+  background: #f8fafc;
+  color: #020617;
+  font-weight: 600;
+}
+
+.presentation-nav-button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.presentation-counter {
+  color: #e2e8f0;
+  font-weight: 600;
+}
+
+@media (max-width: 760px) {
+  .presentation-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .slide-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .presentation-footer {
+    flex-direction: column;
+    gap: 0.7rem;
+  }
+}
+
+/* Make slides wider on medium screens as well */
+@media (min-width: 1000px) {
+  .slide-card {
+    width: min(100%, 1080px);
+  }
+}
+
+/* Ajustes para leaflet-velocity: quitar el fondo blanco del control de viento */
+.leaflet-control-velocity {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  color: #f8fafc !important;
+}
+
+.leaflet-control-velocity * {
+  color: inherit !important;
+}

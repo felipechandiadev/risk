@@ -1,0 +1,73 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "agua-regional-1",
+        "intensity": 0.9
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-72.5, -35.9],
+          [-72.0, -35.9],
+          [-72.0, -36.4],
+          [-72.5, -36.4],
+          [-72.5, -35.9]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "agua-regional-2",
+        "intensity": 0.68
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-72.2, -35.2],
+          [-71.4, -35.2],
+          [-71.4, -35.8],
+          [-72.2, -35.8],
+          [-72.2, -35.2]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "agua-regional-3",
+        "intensity": 0.35
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-71.8, -35.2],
+          [-71.0, -35.2],
+          [-71.0, -35.7],
+          [-71.8, -35.7],
+          [-71.8, -35.2]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "agua-regional-4",
+        "intensity": 0.2
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [-71.4, -35.7],
+          [-70.7, -35.7],
+          [-70.7, -36.2],
+          [-71.4, -36.2],
+          [-71.4, -35.7]
+        ]]
+      }
+    }
+  ]
+}
