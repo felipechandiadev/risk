@@ -206,10 +206,110 @@ function LegendPanel({ isRegional }) {
   );
 }
 
+function WeatherPanel() {
+  const windSpeed = '18 km/h';
+  const windDirection = 'Suroeste';
+  const temperature = '12°C';
+  const humidity = '87%';
+  const rainProbability = '75%';
+  const updatedAt = new Date().toLocaleString('es-CL', {
+    hour: '2-digit',
+    minute: '2-digit',
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+  });
+
+  return (
+    <aside
+      style={{
+        width: '100%',
+        maxWidth: '280px',
+        padding: '18px 20px',
+        borderRadius: '16px',
+        background: 'rgba(7, 15, 28, 0.92)',
+        border: '1px solid rgba(255,255,255,0.14)',
+        boxShadow: '0 18px 40px rgba(0,0,0,0.18)',
+        color: '#f8fafc',
+        backdropFilter: 'blur(12px)',
+        marginTop: '16px',
+      }}
+    >
+      <div style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '8px', color: '#cbd5e1' }}>
+        Datos meteorológicos – Parral
+      </div>
+      <div style={{ display: 'grid', gap: '10px' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <span style={{ color: '#cbd5e1' }}>Velocidad del viento</span>
+          <strong>{windSpeed}</strong>
+        </div>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <span style={{ color: '#cbd5e1' }}>Dirección</span>
+          <strong>{windDirection}</strong>
+        </div>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <span style={{ color: '#cbd5e1' }}>Temperatura</span>
+          <strong>{temperature}</strong>
+        </div>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <span style={{ color: '#cbd5e1' }}>Humedad</span>
+          <strong>{humidity}</strong>
+        </div>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <span style={{ color: '#cbd5e1' }}>Probabilidad de lluvia</span>
+          <strong>{rainProbability}</strong>
+        </div>
+      </div>
+      <p style={{ marginTop: '14px', fontSize: '0.72rem', color: '#94a3b8', lineHeight: 1.5 }}>
+        Datos estimados en tiempo real para la comuna de Parral. Actualizado: {updatedAt}
+      </p>
+    </aside>
+  );
+}
+
+function PointDetailPanel({ point }) {
+  if (!point) return null;
+
+  return (
+    <aside
+      style={{
+        width: '100%',
+        maxWidth: '280px',
+        padding: '18px 20px',
+        borderRadius: '16px',
+        background: 'rgba(7, 15, 28, 0.92)',
+        border: '1px solid rgba(255,255,255,0.14)',
+        boxShadow: '0 18px 40px rgba(0,0,0,0.18)',
+        color: '#f8fafc',
+        backdropFilter: 'blur(12px)',
+      }}
+    >
+      <div style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '8px', color: '#cbd5e1' }}>
+        Punto crítico
+      </div>
+      <div style={{ display: 'grid', gap: '8px' }}>
+        <div>
+          <div style={{ color: '#cbd5e1', fontSize: '0.75rem' }}>Sector</div>
+          <strong>{point.Sector}</strong>
+        </div>
+        <div>
+          <div style={{ color: '#cbd5e1', fontSize: '0.75rem' }}>Nivel de riesgo</div>
+          <strong>{point['Nivel de Riesgo'] || 'Desconocido'}</strong>
+        </div>
+        <div>
+          <div style={{ color: '#cbd5e1', fontSize: '0.75rem' }}>Causa</div>
+          <span>{point['Causa del Punto Crítico']}</span>
+        </div>
+      </div>
+    </aside>
+  );
+}
+
 export default function SlideViento() {
   const [windData, setWindData] = useState(null);
   const [waterLayerData, setWaterLayerData] = useState(null);
   const [error, setError] = useState('');
+  const [selectedPoint, setSelectedPoint] = useState(null);
   const [, setStatus] = useState('Cargando datos de viento...');
   const [currentZoom, setCurrentZoom] = useState(6); // Zoom inicial
   const [mapInstance, setMapInstance] = useState(null);
@@ -505,6 +605,7 @@ export default function SlideViento() {
                     }}
                     eventHandlers={{
                       click: (event) => {
+                        setSelectedPoint(point);
                         event.target.openPopup();
                       },
                     }}
@@ -534,7 +635,11 @@ export default function SlideViento() {
               </MapContainer>
             </div>
 
-            <LegendPanel isRegional={isRegional} />
+            <div style={{ display: 'grid', gap: '16px' }}>
+              <LegendPanel isRegional={isRegional} />
+              <PointDetailPanel point={selectedPoint} />
+              <WeatherPanel />
+            </div>
           </>
         ) : (
           <div className="map-placeholder">{error}</div>
