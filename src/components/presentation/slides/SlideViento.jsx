@@ -138,6 +138,61 @@ function WaterHeatLayer({ data }) {
   return null;
 }
 
+function CriticalPointsLayer({ points, onSelectPoint }) {
+  const map = useMap();
+  const paneName = 'criticalPointsPane';
+
+  if (map && !map.getPane(paneName)) {
+    const pane = map.createPane(paneName);
+    pane.style.zIndex = '850';
+    pane.style.pointerEvents = 'auto';
+  }
+
+  return (
+    <>
+      {points.map((point, index) => (
+        <CircleMarker
+          key={`critical-${index}`}
+          center={[point.Latitud, point.Longitud]}
+          radius={8}
+          pane={paneName}
+          zIndexOffset={1000}
+          interactive
+          pathOptions={{
+            color: riskColor(point['Nivel de Riesgo']),
+            fillColor: riskColor(point['Nivel de Riesgo']),
+            fillOpacity: 0.95,
+            weight: 2.5,
+          }}
+          eventHandlers={{
+            click: (event) => {
+              onSelectPoint(point);
+              event.target.bringToFront();
+              if (event.target.openPopup) {
+                event.target.openPopup();
+              }
+            },
+            mouseover: (event) => {
+              event.target.bringToFront();
+            },
+          }}
+        >
+          <Tooltip direction="top" offset={[0, -10]} opacity={0.95} sticky>
+            {point.Sector}
+          </Tooltip>
+          <Popup>
+            <strong>{point.Sector}</strong>
+            <br />
+            <strong>Nivel de Riesgo:</strong> {point['Nivel de Riesgo'] || 'Desconocido'}
+            <br />
+            {point['Causa del Punto Crítico']}
+          </Popup>
+        </CircleMarker>
+      ))}
+    </>
+  );
+}
+
 function LegendPanel({ isRegional }) {
   const windLegendColors = isRegional
     ? ['#061a37', '#1d4f7a', '#2d8fca', '#5ac7aa', '#f0c44f', '#d94e3a']
@@ -592,36 +647,7 @@ export default function SlideViento() {
                     fillOpacity: 0.1,
                   }}
                 />
-                {criticalPoints.map((point, index) => (
-                  <CircleMarker
-                    key={`critical-${index}`}
-                    center={[point.Latitud, point.Longitud]}
-                    radius={7}
-                    pathOptions={{
-                      color: riskColor(point['Nivel de Riesgo']),
-                      fillColor: riskColor(point['Nivel de Riesgo']),
-                      fillOpacity: 0.85,
-                      weight: 2,
-                    }}
-                    eventHandlers={{
-                      click: (event) => {
-                        setSelectedPoint(point);
-                        event.target.openPopup();
-                      },
-                    }}
-                  >
-                    <Tooltip direction="top" offset={[0, -10]} opacity={0.9} sticky>
-                      {point.Sector}
-                    </Tooltip>
-                    <Popup>
-                      <strong>{point.Sector}</strong>
-                      <br />
-                      <strong>Nivel de Riesgo:</strong> {point['Nivel de Riesgo'] || 'Desconocido'}
-                      <br />
-                      {point['Causa del Punto Crítico']}
-                    </Popup>
-                  </CircleMarker>
-                ))}
+                <CriticalPointsLayer points={criticalPoints} onSelectPoint={setSelectedPoint} />
                 <MapController
                   onZoomChange={(newZoom, map) => {
                     if (map && !mapInstance) {
