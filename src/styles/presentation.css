@@ -320,13 +320,15 @@ body {
 }
 
 /* Ajustes para leaflet-velocity: quitar el fondo blanco del control de viento */
-.leaflet-control-velocity {
+.slide-viento-card .leaflet-control-velocity {
   background: transparent !important;
   border: none !important;
   box-shadow: none !important;
-  color: #f8fafc !important;
+  color: #000000 !important;
+  font-weight: 700 !important;
+  text-shadow: 0 1px 2px rgba(255,255,255,0.8) !important;
 }
 
-.leaflet-control-velocity * {
+.slide-viento-card .leaflet-control-velocity * {
   color: inherit !important;
 }

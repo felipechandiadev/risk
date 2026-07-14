@@ -511,6 +511,7 @@ export default function SlideViento() {
             velocityType: isRegional ? 'Viento Regional (Maule)' : 'Viento global',
             position: 'bottomleft',
             emptyString: 'Sin datos de viento',
+            textColor: '#000000',
           },
           data: windData,
           minVelocity: 0,
